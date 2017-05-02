@@ -10,7 +10,8 @@ Gf = 0;
 Af = 0;
 Mf = 0;
 Wf = 0;
-doubleMf = 0;
+doubleMf =0;
+midanimate = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ScanAngle_min = ScanAngle_min * pi / 180;
@@ -67,9 +68,10 @@ grid on;
 
 
 % figure;
+if midanimate
 while 1
-  medfilterC = 0;
-medfilterstep = 3;  
+  medfilterC = 1;
+medfilterstep = 2;  
     
 for i = 1:50
 
@@ -89,6 +91,7 @@ plot3(x,z,y,'.b');
 hold on;
 plot3(xx,zz,yy,'--.r');
 grid on;
+end
 end
 % 
 % B = xyzmodify_parallel(new_decDist_1,ScanAngle_max,ScanAngle_min,0);
@@ -157,8 +160,8 @@ title('gaussian filter');
 grid on;
 
 
-xx = filter2(gausFilter,xxxx);
-yy = filter2(gausFilter,yyyy);
+xx = filter2(gausFilter,xx);
+yy = filter2(gausFilter,yy);
 figure;
 plot3(xx,z,yy,'.--');
 title('2nd gaussian filter');

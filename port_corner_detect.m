@@ -1,3 +1,4 @@
+t = tcpip('192.168.0.1',2112);
 fclose(t);
 clc;
 close all;
@@ -141,8 +142,8 @@ while 1
     polar(theta,c_Distance,'.');
     grid on;
     
-    dis = c_Distance; % generate another distance copy, 
-                      % to protect the origenal data from polluted
+    dis = c_Distance; % generate another distance copy,
+    % to protect the origenal data from polluted
     
     %%%%%%%%%%%%%%%%%%%%%%angle limitation%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     given_angle_1_low = 85;
@@ -161,8 +162,8 @@ while 1
     
     maxdis = 0;
     
-%     angle_step = ScanAngle_total / length(r_Distance);
-%     theta = ScanAngle_min + angle_step :angle_step:ScanAngle_max;
+    %     angle_step = ScanAngle_total / length(r_Distance);
+    %     theta = ScanAngle_min + angle_step :angle_step:ScanAngle_max;
     
     [max_dis,i] = max(dis);
     
@@ -179,12 +180,12 @@ while 1
     
     subplot(2,2,2);
     limited_theta_1 = ScanAngle_min + (fix(given_angle_1_low / angle_step)) * angle_step:...
-                    angle_step:...
-                    ScanAngle_min + (fix(given_angle_1_high / angle_step) + 1) * angle_step;
+        angle_step:...
+        ScanAngle_min + (fix(given_angle_1_high / angle_step) + 1) * angle_step;
     limited_dis_1 = dis(fix(given_angle_1_low / angle_step)-1:fix(given_angle_1_high / angle_step));
     polar(limited_theta_1,limited_dis_1,'.');
     hold on;
-%     polar([0 maxatr + angle_step],[0 max(dis)])
+    %     polar([0 maxatr + angle_step],[0 max(dis)])
     [max_dis,i] = max(limited_dis_1);
     polar([0 limited_theta_1(i)],[0 limited_dis_1(i)],'r')
     polar([0 ScanAngle_min + (fix(given_angle_1_low / angle_step)) * angle_step],[0 limited_dis_1(i)],'g')
@@ -195,12 +196,12 @@ while 1
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%layer 2%%%%%%%%%%%%%%%%%%%%%%%%%
     subplot(2,2,3);
     limited_theta_2 = ScanAngle_min + (fix(given_angle_2_low / angle_step)) * angle_step:...
-                    angle_step:...
-                    ScanAngle_min + (fix(given_angle_2_high / angle_step) + 1) * angle_step;
+        angle_step:...
+        ScanAngle_min + (fix(given_angle_2_high / angle_step) + 1) * angle_step;
     limited_dis_2 = dis(fix(given_angle_2_low / angle_step)-1:fix(given_angle_2_high / angle_step));
     polar(limited_theta_2,limited_dis_2,'.');
     hold on;
-%     polar([0 maxatr + angle_step],[0 max(dis)])
+    %     polar([0 maxatr + angle_step],[0 max(dis)])
     [max_dis,i] = max(limited_dis_2);
     polar([0 limited_theta_2(i)],[0 limited_dis_2(i)],'r')
     polar([0 ScanAngle_min + (fix(given_angle_2_low / angle_step)) * angle_step],[0 limited_dis_2(i)],'g')
@@ -210,12 +211,12 @@ while 1
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%layer 3%%%%%%%%%%%%%%%%%%%%%%%%%
     subplot(2,2,4);
     limited_theta_3 = ScanAngle_min + (fix(given_angle_3_low / angle_step)) * angle_step:...
-                    angle_step:...
-                    ScanAngle_min + (fix(given_angle_3_high / angle_step) + 1) * angle_step;
+        angle_step:...
+        ScanAngle_min + (fix(given_angle_3_high / angle_step) + 1) * angle_step;
     limited_dis_3 = dis(fix(given_angle_3_low / angle_step)-1:fix(given_angle_3_high / angle_step));
     polar(limited_theta_3,limited_dis_3,'.');
     hold on;
-%     polar([0 maxatr + angle_step],[0 max(dis)])
+    %     polar([0 maxatr + angle_step],[0 max(dis)])
     [max_dis,i] = max(limited_dis_3);
     polar([0 limited_theta_3(i)],[0 limited_dis_3(i)],'r')
     polar([0 ScanAngle_min + (fix(given_angle_3_low / angle_step)) * angle_step],[0 limited_dis_3(i)],'g')

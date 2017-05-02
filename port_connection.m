@@ -1,9 +1,10 @@
+t = tcpip('192.168.0.1',2112);
 fclose(t);
- clc;
- close all;
- clear all;
+clc;
+close all;
+clear all;
 t = tcpip('192.168.0.1',2112); % create tcp portal
-t.InputBufferSize = 9000; % change input buffer size to 5000 bytes
+t.InputBufferSize = 9000; % change input buffer size to 9000 bytes
 t.OutputBufferSize = 2000; % change output buffer size to 2000 bytes
 t.Terminator = char(03); % set read terminator to ETX which is 03 in ascii
 
@@ -16,9 +17,9 @@ ScanAngle_total = abs(ScanAngle_min) + abs(ScanAngle_max); % total degrees
 
 % Authorised client. password: client
 login_client = add_ascii_frame('sMN SetAccessMode 03 F4724744');
-
 % Service level. password:servicelevel
 login_service = add_ascii_frame('sMN SetAccessMode 04 81BE23AA');
+
 % store all configration to hardware
 storecfg = add_ascii_frame('sMN mEEwriteall');
 % log out and run
@@ -30,12 +31,12 @@ setoutputrange = add_ascii_frame('sWN LMPoutputRange +1 +683 -50000 +1850000');
 askoutputrange = add_ascii_frame('sRN LMPoutputRange');
 
 % Output of measured values of one scan.
-% Sends the last valid scan data back from the memory of the LMS. 
-% Also if the measurement is not running, 
+% Sends the last valid scan data back from the memory of the LMS.
+% Also if the measurement is not running,
 % the last measurement is available.
 pull_single = add_ascii_frame('sRN LMDscandata');
 
-% start to keep sending scanned value 
+% start to keep sending scanned value
 pull_cont = add_ascii_frame('sEN LMDscandata 1');
 % stop to keep sending scanned value
 pull_stop = add_ascii_frame('sEN LMDscandata 0');
@@ -88,9 +89,9 @@ r_MeasurementFrequency = A(1,18); %read frequency
 
 time = 1; % preset time value
 while 1
-   tic
+    tic
     
-    [AA B] = query(t,pull_single); %pull data stream from 511
+    [AA,B] = query(t,pull_single); %pull data stream from 511
     AA = strread(AA,'%s','delimiter',' ');
     A = AA';
     
@@ -124,9 +125,9 @@ while 1
     end
     c_Distance = (c_Distance ./ 1000) .* c_ScaleFactor;
     
-%     theta = ScanAngle_min + ScanAngle_total / length(r_Distance):...
-%         ScanAngle_total  / length(r_Distance): ...
-%         ScanAngle_max;
+    %     theta = ScanAngle_min + ScanAngle_total / length(r_Distance):...
+    %         ScanAngle_total  / length(r_Distance): ...
+    %         ScanAngle_max;
     angle_step = ScanAngle_total / length(r_Distance);
     theta = ScanAngle_min + angle_step :angle_step:ScanAngle_max;
     
@@ -135,8 +136,8 @@ while 1
     title([num2str(time),'s, ',num2str(1/time),'Hz']);
     grid on;
     pause(0.0005);
-
+    
     time = toc;
-
-
+    
+    
 end
