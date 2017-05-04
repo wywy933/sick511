@@ -245,7 +245,7 @@ while 1
     
     
     
-    pause(1.111);
+    pause(0.111);
 end
 
 % maxdis
