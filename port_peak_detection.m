@@ -94,7 +94,7 @@ time = 1; % preset time value
 % while starts here
 while 1
     
-    [AA B] = query(t,pull_single); %pull data stream from 511
+    [AA,B] = query(t,pull_single); %pull data stream from 511
     AA = strread(AA,'%s','delimiter',' ');
     A = AA';
     
@@ -108,7 +108,7 @@ while 1
             c_ScaleFactor = 1;
         else
             disp('ScaleFactor invalid.')
-            c_ScaleFactor = 1;
+            c_ScaleFactor = 999;
         end
     end
     
@@ -144,8 +144,11 @@ while 1
     % to protect the origenal data from polluted
     
     %%%%%%%%%%%%%%%%%%%%%%angle limitation%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    given_angle_1_low = 85;
-    given_angle_1_high = 105;
+    given_angle_1_low = 88;
+    given_angle_1_high = 92;
+    angle_offset = 5;
+    given_angle_1_low = given_angle_1_low - angle_offset;
+    given_angle_1_high = given_angle_1_high - angle_offset;
     %     layer_anger_diff = 10;
     given_angle_1_low = given_angle_1_low * pi / 180;
     given_angle_1_high = given_angle_1_high * pi / 180;
@@ -158,12 +161,12 @@ while 1
     %     given_angle_3_high = given_angle_2_high + layer_anger_diff;
     %%%%%%%%%%%%%%%%%%%%%detect corner within given angle range%%%%%%%%%%%
     
-
+    
     
     %     angle_step = ScanAngle_total / length(r_Distance);
     %     theta = ScanAngle_min + angle_step :angle_step:ScanAngle_max;
     
-%     [max_dis,i] = max(dis);
+    %     [max_dis,i] = max(dis);
     
     
     %     hold on;
@@ -182,23 +185,23 @@ while 1
         ScanAngle_min + (fix(given_angle_1_high / angle_step) + 1) * angle_step;
     limited_dis_1 = dis(fix(given_angle_1_low / angle_step)-1:fix(given_angle_1_high / angle_step));
     %%% plot starts here
-%     subplot(1,2,1);
-%     polar(limited_theta_1,limited_dis_1,'.');
-%     hold on;
+    %     subplot(1,2,1);
+    %     polar(limited_theta_1,limited_dis_1,'.');
+    %     hold on;
     %     polar([0 maxatr + angle_step],[0 max(dis)])
     [max_dis,i] = max(limited_dis_1);
-%     polar([0 limited_theta_1(i)],[0 limited_dis_1(i)],'r')
-%     polar([0 ScanAngle_min + (fix(given_angle_1_low / angle_step)) * angle_step],[0 limited_dis_1(i)],'g')
-%     polar([0 ScanAngle_min + (fix(given_angle_1_high / angle_step) + 1) * angle_step],[0 limited_dis_1(i)],'g')
-%     title(['max distance at',num2str(limited_theta_1(i)*180/pi),'with value of',num2str(limited_dis_1(i))]);
-%     
+    %     polar([0 limited_theta_1(i)],[0 limited_dis_1(i)],'r')
+    %     polar([0 ScanAngle_min + (fix(given_angle_1_low / angle_step)) * angle_step],[0 limited_dis_1(i)],'g')
+    %     polar([0 ScanAngle_min + (fix(given_angle_1_high / angle_step) + 1) * angle_step],[0 limited_dis_1(i)],'g')
+    %     title(['max distance at',num2str(limited_theta_1(i)*180/pi),'with value of',num2str(limited_dis_1(i))]);
+    %
     clf
-%     subplot(1,3,1)
-%     polar(limited_theta_1,limited_dis_1,'.')
-%     grid on;
+    %     subplot(1,3,1)
+    %     polar(limited_theta_1,limited_dis_1,'.')
+    %     grid on;
     
     %%%%%%%%%%%%%%rotate%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    rotate_angle = -45;
+    rotate_angle = -30;
     rotate_angle = rotate_angle * pi / 180;
     
     
@@ -211,8 +214,8 @@ while 1
     
     [AA,BB,CC] = peakdetect(yy,0.005);
     
-%     subplot(1,2,1)
-%     plot(xx,yy);grid on;hold on;
+    %     subplot(1,2,1)
+    %     plot(xx,yy);grid on;hold on;
     for i = 1:size(AA)
         plot(xx(AA(i,2)),yy(AA(i,2)),'o');
     end
@@ -221,10 +224,10 @@ while 1
         plot(xx(BB(i,2)),yy(BB(i,2)),'o');
     end
     
-%     subplot(1,2,2)
+    %     subplot(1,2,2)
     polar(limited_theta_1,limited_dis_1,'.')
     grid on;hold on;
-        for i = 1:size(AA)
+    for i = 1:size(AA)
         polar(limited_theta_1(AA(i,2)),limited_dis_1(AA(i,2)),'o');
     end
     
@@ -238,14 +241,14 @@ while 1
         peak_distance(i) = polar_distance(limited_dis_1(CC(i)),...
             limited_theta_1(CC(i)),...
             limited_dis_1(CC(i+1)),...
-            limited_theta_1(CC(i+1)));  
+            limited_theta_1(CC(i+1)));
     end
     title(peak_distance.*1000);
-%     peak_distance
+    %     peak_distance
     
     
     
-    pause(0.111);
+    pause(10.111);
 end
 
 % maxdis
