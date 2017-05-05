@@ -144,11 +144,11 @@ while 1
     % to protect the origenal data from polluted
     
     %%%%%%%%%%%%%%%%%%%%%%angle limitation%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    given_angle_1_low = 88;
-    given_angle_1_high = 92;
-    angle_offset = 5;
-    given_angle_1_low = given_angle_1_low - angle_offset;
-    given_angle_1_high = given_angle_1_high - angle_offset;
+    given_angle_1_low = 90;
+    given_angle_1_high = 100;
+%     angle_offset = 5;
+%     given_angle_1_low = given_angle_1_low - angle_offset;
+%     given_angle_1_high = given_angle_1_high - angle_offset;
     %     layer_anger_diff = 10;
     given_angle_1_low = given_angle_1_low * pi / 180;
     given_angle_1_high = given_angle_1_high * pi / 180;

@@ -1,4 +1,4 @@
-t = tcpip('192.168.0.1',2112);
+% t = tcpip('192.168.0.1',2112);
 fclose(t);
 clc;
 close all;
