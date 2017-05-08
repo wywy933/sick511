@@ -29,7 +29,7 @@ setscancfg = add_ascii_frame('sMN mLMPsetscancfg +2500 +1 +683 -50000 +1850000')
 getscancfg = add_ascii_frame('sRN LMPscancfg');
 setoutputrange = add_ascii_frame('sWN LMPoutputRange +1 +683 -50000 +1850000');
 askoutputrange = add_ascii_frame('sRN LMPoutputRange');
-scan_with_RSSI = add_ascii_frame('sWN LMDscandatacfg 01 00 1 0 0 00 00 0 0 0 0 +1');
+
 % Output of measured values of one scan.
 % Sends the last valid scan data back from the memory of the LMS.
 % Also if the measurement is not running,
@@ -40,6 +40,9 @@ pull_single = add_ascii_frame('sRN LMDscandata');
 pull_cont = add_ascii_frame('sEN LMDscandata 1');
 % stop to keep sending scanned value
 pull_stop = add_ascii_frame('sEN LMDscandata 0');
+scan_with_RSSI = add_ascii_frame('sWN LMDscandatacfg 01 00 1 0 0 00 00 0 0 0 0 +1');
+scan_without_RSSI = add_ascii_frame('sWN LMDscandatacfg 01 00 0 0 0 00 00 0 0 0 0 +1');
+
 
 
 fopen(t); %open preset portal
@@ -56,7 +59,7 @@ query(t,login_client) %login as client
 % query(t,setscancfg)
 query(t,getscancfg)
 % query(t,setoutputrange)
-query(t,askoutputrange)
+query(t,askoutputrange);
 query(t,scan_with_RSSI)
 query(t,storecfg) %store configration into device
 query(t,run) % log out and run
@@ -85,6 +88,8 @@ r_Steps = A(1,25);
 r_AmountOfData = A(1,26);
 
 r_Distance = A(1,27:1167); % scanned data string
+r_RSSI_tag = A(1,1169);
+r_RSSI = A(1,1175:2315);
 
 r_MeasurementFrequency = A(1,18); %read frequency
 
@@ -112,7 +117,7 @@ while 1
     
     %%%%%%%%%%%%%%%%%%%%data valid check%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     r_AmountOfData = hex2dec(A(1,26));
-    r_Distance = A(1,27:1167);;
+    r_Distance = A(1,27:1167);
     if r_AmountOfData ~= length(r_Distance)
         disp('data length does not match. value invalid');
     end
@@ -131,11 +136,26 @@ while 1
     %         ScanAngle_max;
     angle_step = ScanAngle_total / length(r_Distance);
     theta = ScanAngle_min + angle_step :angle_step:ScanAngle_max;
-    
+    r_RSSI = A(1,1175:2315);
+    c_RSSI = (hex2dec(r_RSSI))';
+    c_RSSI_per = c_RSSI * 100 / 255;
     clf;
+    subplot(1,2,1);
     polar(theta,c_Distance,'.')
     title([num2str(time),'s, ',num2str(1/time),'Hz']);
     grid on;
+%     hold on;
+%     for i = 1:length(c_RSSI)
+%         if c_RSSI(i) >= 254
+%             polar(theta(i),c_Distance(i),'or');
+%         end
+%     end
+    
+    
+    
+    subplot(1,2,2)
+    polar(theta,c_RSSI_per,'.');
+    
     pause(0.0005);
     
     time = toc;
