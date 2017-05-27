@@ -1,6 +1,6 @@
 function output = add_ascii_frame( s )
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+% add ascii STX and ETX at the beginning n end of the given cmd string.
+
 output = [char(02),s,char(03)];
 end
 
