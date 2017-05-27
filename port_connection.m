@@ -61,7 +61,7 @@ query(t,scan_with_RSSI)
 query(t,storecfg) %store configration into device
 query(t,run) % log out and run
 A = query(t,pull_single); % pull very last scan data
-A = strread(A,'%s','delimiter',' '); %seperate read string into array
+A = strread(A,'%s','delimiter',' '); %separate read string into array
 A = A'; % change dimention
 
 r_CommandTitle = [A(1,1) A(1,2)];
